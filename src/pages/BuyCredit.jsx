@@ -1,26 +1,46 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { assets, plans } from "../assets/assets/assets.js";
 import { AppContext } from "../context/AppContext.jsx";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
+import { gsap } from "gsap";
 
 const BuyCredit = () => {
   const { user } = useContext(AppContext);
+  const pageRef = useRef(null);
+  const cardsRef = useRef(null);
+
+  useEffect(() => {
+    const tl = gsap.timeline();
+    
+    tl.fromTo(pageRef.current.querySelector('.page-button'),
+      { scale: 0, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.7)" }
+    )
+    .fromTo(pageRef.current.querySelector('.page-title'),
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6 }
+    )
+    .fromTo(cardsRef.current.children,
+      { scale: 0.8, opacity: 0, y: 50 },
+      { scale: 1, opacity: 1, y: 0, duration: 0.6, stagger: 0.2, ease: "back.out(1.7)" }
+    );
+  }, []);
   return (
     <>
       <Navbar />
-      <div className="min-h-[80vh] text-center pt-14 mb-10">
+      <div ref={pageRef} className="min-h-[80vh] text-center pt-14 mb-10">
         <button
           type="button"
-          className="border border-gray-400 px-10 py-2 rounded-full mb-6"
+          className="page-button border border-gray-400 px-10 py-2 rounded-full mb-6"
         >
           Our Plans
         </button>
-        <h1 className="text-center text-3xl font-medium mb-6 sm:mb-10">
+        <h1 className="page-title text-center text-3xl font-medium mb-6 sm:mb-10">
           Choose the plan
         </h1>
 
-        <div className="flex flex-wrap justify-center gap-6 text-left">
+        <div ref={cardsRef} className="flex flex-wrap justify-center gap-6 text-left">
           {plans.map((item, index) => (
             <div
               key={index}

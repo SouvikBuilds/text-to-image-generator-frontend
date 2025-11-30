@@ -1,9 +1,39 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { assets } from "../assets/assets/assets.js";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useNavigate } from "react-router-dom";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const GenerateBtn = () => {
+  const generateRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    gsap.fromTo(
+      generateRef.current.children,
+      { y: 50, opacity: 0, scale: 0.8 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.6,
+        stagger: 0.3,
+        ease: "back.out(1.7)",
+        scrollTrigger: {
+          trigger: generateRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+      }
+    );
+  }, []);
   return (
-    <div className="flex flex-col justify-center items-center pb-16">
+    <div
+      ref={generateRef}
+      className="flex flex-col justify-center items-center pb-16"
+    >
       <h1 className="text-2xl md:text-3xl lg:text-4xl mt-4 font-semibold text-neutral-800 py-6 md:py-14">
         See the Magic, Try Now.
       </h1>
@@ -11,6 +41,7 @@ const GenerateBtn = () => {
       <button
         type="button"
         className=" flex items-center justify-center px-12 py-3 gap-2 rounded-full bg-black text-white m-auto cursor-pointer hover:scale-[1.02] duration-200 transition-all active:bg-gray-800 ease-in-out"
+        onClick={() => navigate("/result")}
       >
         Generate Now
         <img src={assets.star_group} alt="" className="h-6" />

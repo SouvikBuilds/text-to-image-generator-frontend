@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { assets } from "../assets/assets/assets.js";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext.jsx";
+import { gsap } from "gsap";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -9,8 +10,16 @@ const Navbar = () => {
     navigate("/");
   };
   const { user } = useContext(AppContext);
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    gsap.fromTo(navRef.current.children,
+      { y: -50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, stagger: 0.2, ease: "power2.out" }
+    );
+  }, []);
   return (
-    <div className="flex items-center justify-between py-4">
+    <div ref={navRef} className="flex items-center justify-between py-4">
       <div className="imageSection">
         <img
           src={assets.logo}

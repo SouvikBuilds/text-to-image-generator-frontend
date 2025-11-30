@@ -1,25 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { assets } from "../assets/assets/assets.js";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
+import { gsap } from "gsap";
 
 const Result = () => {
   const [image, setImage] = useState(assets.sample_img_1);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [input, setInput] = useState("");
+  const formRef = useRef(null);
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    const tl = gsap.timeline();
+    
+    tl.fromTo(imageRef.current,
+      { scale: 0.8, opacity: 0, rotation: 5 },
+      { scale: 1, opacity: 1, rotation: 0, duration: 0.8, ease: "back.out(1.7)" }
+    )
+    .fromTo(formRef.current.querySelector('.input-container'),
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6 }
+    );
+  }, []);
 
   const onSubmitHandler = async (e) => {};
   return (
     <>
       <Navbar />
       <form
+        ref={formRef}
         className="flex flex-col min-h-[90vh] justify-center items-center"
         onSubmit={onSubmitHandler}
       >
         <div>
           <div className="relative ">
-            <img src={image} alt="" className="max-w-sm rounded " />
+            <img ref={imageRef} src={image} alt="" className="max-w-sm rounded " />
             <span
               className={`absolute bottom-0 left-0 h-1 bg-blue-500  ${
                 isLoading ? "w-full transition-all duration-[10s]" : "w-0"
@@ -30,7 +47,7 @@ const Result = () => {
         </div>
 
         {!isImageLoaded && (
-          <div className="flex items-center w-full max-w-xl bg-neutral-500 text-white text-sm p-0.5 mt-10 rounded-full">
+          <div className="input-container flex items-center w-full max-w-xl bg-neutral-500 text-white text-sm p-0.5 mt-10 rounded-full">
             <input
               type="text"
               name=""
