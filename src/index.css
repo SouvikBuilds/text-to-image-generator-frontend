@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@import "@fontsource-variable/outfit";
+@import "@fontsource-variable/outfit/wght.css";
+/* @import "@fontsource-variable/outfit/wght-italic.css"; */
+
+* {
+  font-family: "Outfit Variable";
+}
