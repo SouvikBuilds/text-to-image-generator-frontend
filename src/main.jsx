@@ -7,6 +7,8 @@ import Home from "./pages/Home.jsx";
 import BuyCredit from "./pages/BuyCredit.jsx";
 import Result from "./pages/Result.jsx";
 import AppContextProvider from "./context/AppContext.jsx";
+import Signup from "./components/Signup.jsx";
+import Login from "./components/Login.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,6 +25,14 @@ const router = createBrowserRouter([
       {
         path: "/result",
         element: <Result />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
       },
     ],
   },

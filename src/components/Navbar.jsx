@@ -57,6 +57,7 @@ const Navbar = () => {
             <button
               type="button"
               className="bg-zinc-800 text-white px-7 py-2 sm:px-10 text-sm rounded-full cursor-pointer duration-200 active:bg-zinc-600 transition-all transform ease-in-out"
+              onClick={() => navigate("/login")}
             >
               Login
             </button>
