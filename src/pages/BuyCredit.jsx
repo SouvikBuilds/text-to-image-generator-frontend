@@ -4,27 +4,39 @@ import { AppContext } from "../context/AppContext.jsx";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 import { gsap } from "gsap";
+import { useNavigate } from "react-router-dom";
 
 const BuyCredit = () => {
   const { user } = useContext(AppContext);
+  const navigate = useNavigate();
   const pageRef = useRef(null);
   const cardsRef = useRef(null);
 
   useEffect(() => {
     const tl = gsap.timeline();
-    
-    tl.fromTo(pageRef.current.querySelector('.page-button'),
+
+    tl.fromTo(
+      pageRef.current.querySelector(".page-button"),
       { scale: 0, opacity: 0 },
       { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.7)" }
     )
-    .fromTo(pageRef.current.querySelector('.page-title'),
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6 }
-    )
-    .fromTo(cardsRef.current.children,
-      { scale: 0.8, opacity: 0, y: 50 },
-      { scale: 1, opacity: 1, y: 0, duration: 0.6, stagger: 0.2, ease: "back.out(1.7)" }
-    );
+      .fromTo(
+        pageRef.current.querySelector(".page-title"),
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6 }
+      )
+      .fromTo(
+        cardsRef.current.children,
+        { scale: 0.8, opacity: 0, y: 50 },
+        {
+          scale: 1,
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.2,
+          ease: "back.out(1.7)",
+        }
+      );
   }, []);
   return (
     <>
@@ -40,7 +52,10 @@ const BuyCredit = () => {
           Choose the plan
         </h1>
 
-        <div ref={cardsRef} className="flex flex-wrap justify-center gap-6 text-left">
+        <div
+          ref={cardsRef}
+          className="flex flex-wrap justify-center gap-6 text-left"
+        >
           {plans.map((item, index) => (
             <div
               key={index}
@@ -57,6 +72,11 @@ const BuyCredit = () => {
               <button
                 type="button"
                 className="text-center w-full px-12 py-4 rounded-lg bg-gray-800 text-sm text-white mt-8 min-w-52 hover:scale-[1.02] transition-all hover:bg-gray-600 cursor-pointer duration-500 transform ease-in-out"
+                onClick={() => {
+                  if (!user) {
+                    navigate("/login");
+                  }
+                }}
               >
                 {user ? "Purchase" : "Get Started"}
               </button>

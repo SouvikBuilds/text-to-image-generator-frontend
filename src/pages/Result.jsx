@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { assets } from "../assets/assets/assets.js";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 import { gsap } from "gsap";
+import { AppContext } from "../context/AppContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Result = () => {
   const [image, setImage] = useState(assets.sample_img_1);
@@ -14,12 +16,19 @@ const Result = () => {
 
   useEffect(() => {
     const tl = gsap.timeline();
-    
-    tl.fromTo(imageRef.current,
+
+    tl.fromTo(
+      imageRef.current,
       { scale: 0.8, opacity: 0, rotation: 5 },
-      { scale: 1, opacity: 1, rotation: 0, duration: 0.8, ease: "back.out(1.7)" }
-    )
-    .fromTo(formRef.current.querySelector('.input-container'),
+      {
+        scale: 1,
+        opacity: 1,
+        rotation: 0,
+        duration: 0.8,
+        ease: "back.out(1.7)",
+      }
+    ).fromTo(
+      formRef.current.querySelector(".input-container"),
       { y: 50, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.6 }
     );
@@ -36,7 +45,12 @@ const Result = () => {
       >
         <div>
           <div className="relative ">
-            <img ref={imageRef} src={image} alt="" className="max-w-sm rounded " />
+            <img
+              ref={imageRef}
+              src={image}
+              alt=""
+              className="max-w-sm rounded "
+            />
             <span
               className={`absolute bottom-0 left-0 h-1 bg-blue-500  ${
                 isLoading ? "w-full transition-all duration-[10s]" : "w-0"

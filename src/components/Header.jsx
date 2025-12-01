@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { assets } from "../assets/assets/assets.js";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
+import { AppContext } from "../context/AppContext.jsx";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -9,6 +10,8 @@ const Header = () => {
   const titleRef = useRef(null);
   const buttonRef = useRef(null);
   const imagesRef = useRef(null);
+
+  const { user } = useContext(AppContext);
 
   useEffect(() => {
     const tl = gsap.timeline();
@@ -90,7 +93,9 @@ const Header = () => {
         ref={buttonRef}
         type="button"
         className="sm:text-lg text-white bg-black w-auto mt-8 mx-12 py-3 flex items-center gap-2 rounded-full px-12 cursor-pointer active:bg-gray-800 duration-200 transition transform ease-in-out"
-        onClick={() => navigate("/result")}
+        onClick={() => {
+          user ? navigate("/result") : navigate("/login");
+        }}
       >
         Generate Images
         <img src={assets.star_group} alt="" className="h-6" />

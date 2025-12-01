@@ -1,14 +1,17 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { assets } from "../assets/assets/assets.js";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const GenerateBtn = () => {
   const generateRef = useRef(null);
   const navigate = useNavigate();
+
+  const { user } = useContext(AppContext);
 
   useEffect(() => {
     gsap.fromTo(
@@ -41,7 +44,9 @@ const GenerateBtn = () => {
       <button
         type="button"
         className=" flex items-center justify-center px-12 py-3 gap-2 rounded-full bg-black text-white m-auto cursor-pointer hover:scale-[1.02] duration-200 transition-all active:bg-gray-800 ease-in-out"
-        onClick={() => navigate("/result")}
+        onClick={() => {
+          user ? navigate("/result") : navigate("/login");
+        }}
       >
         Generate Now
         <img src={assets.star_group} alt="" className="h-6" />
