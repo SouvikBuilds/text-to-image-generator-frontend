@@ -5,7 +5,7 @@ import Footer from "../components/Footer.jsx";
 import { gsap } from "gsap";
 import { AppContext } from "../context/AppContext.jsx";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const Result = () => {
   const [image, setImage] = useState(assets.sample_img_1);
@@ -137,7 +137,7 @@ const Result = () => {
               className="bg-transparent border border-zinc-900 text-black px-8 py-3 rounded-full cursor-pointer"
               onClick={() => {
                 if (credit === 0) {
-                  toast.info("No credits left! Redirecting to pricing...");
+                  toast.info("No credits left! Choose a plan");
                   navigate("/buy-credit");
                 } else {
                   setIsImageLoaded(false);
