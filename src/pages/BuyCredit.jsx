@@ -5,12 +5,64 @@ import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 import { gsap } from "gsap";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const BuyCredit = () => {
-  const { user } = useContext(AppContext);
+  const { user, backendUrl, setCredit, credit } = useContext(AppContext);
   const navigate = useNavigate();
   const pageRef = useRef(null);
   const cardsRef = useRef(null);
+
+  const initPay = async (order) => {
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_TEST_API_KEY,
+      amount: order.amount,
+      currency: order.currency,
+      name: "Credits Payment",
+      description: "Credits Payment",
+      order_id: order.id,
+      receipt: order.receipt,
+      handler: async (response) => {
+        try {
+          const { data } = await axios.post(
+            `${backendUrl}/api/v1/users/verify-razorpay`,
+            response,
+            { withCredentials: true }
+          );
+          if (data.success) {
+            setCredit(data.data.credit);
+            navigate("/");
+            toast.success("Credit added");
+          }
+        } catch (error) {
+          console.log(error);
+          toast.error(error.message);
+        }
+      },
+    };
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
+
+  const paymentRazorpay = async (planId) => {
+    try {
+      const { data } = await axios.post(
+        `${backendUrl}/api/v1/users/pay-razorpay`,
+        { planId },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("Backend response:", data);
+      if (data.success) {
+        initPay(data.data);
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      toast.error(error.response?.data?.message || error.message);
+    }
+  };
 
   useEffect(() => {
     const tl = gsap.timeline();
@@ -75,6 +127,8 @@ const BuyCredit = () => {
                 onClick={() => {
                   if (!user) {
                     navigate("/login");
+                  } else {
+                    paymentRazorpay(item.id);
                   }
                 }}
               >
