@@ -13,11 +13,16 @@ const AppContextProvider = ({ children }) => {
         credentials: 'include'
       });
       const data = await response.json();
+      console.log('Auth check response:', data);
       if (data.success) {
         setUser(data.data);
+      } else {
+        console.log('Auth check failed:', data.message);
+        setUser(null);
       }
     } catch (error) {
       console.error('Auth check failed:', error);
+      setUser(null);
     }
   };
 
