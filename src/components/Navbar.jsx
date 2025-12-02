@@ -18,7 +18,7 @@ const Navbar = () => {
     if (!user) return;
     try {
       const response = await fetch(
-        `${backendUrl}/api/v1/users/credit?userId=${user._id}`,
+        `${backendUrl}/api/v1/users/credit`,
         {
           credentials: "include",
         }

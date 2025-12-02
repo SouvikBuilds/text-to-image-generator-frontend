@@ -27,17 +27,28 @@ const BuyCredit = () => {
         try {
           const { data } = await axios.post(
             `${backendUrl}/api/v1/users/verify-razorpay`,
-            response,
+            {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            },
             { withCredentials: true }
           );
           if (data.success) {
-            setCredit(data.data.credit);
+            toast.success("Payment successful! Credits added to your account.");
+            // Fetch updated credit balance
+            const creditResponse = await axios.get(
+              `${backendUrl}/api/v1/users/credit`,
+              { withCredentials: true }
+            );
+            if (creditResponse.data.success) {
+              setCredit(creditResponse.data.data.credit);
+            }
             navigate("/");
-            toast.success("Credit added");
           }
         } catch (error) {
-          console.log(error);
-          toast.error(error.message);
+          console.error('Payment verification failed:', error);
+          toast.error(error.response?.data?.message || 'Payment verification failed');
         }
       },
     };
