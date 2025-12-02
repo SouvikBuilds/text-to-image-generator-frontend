@@ -39,6 +39,7 @@ const Navbar = () => {
         credentials: "include",
       });
       setUser(null);
+      localStorage.removeItem('accessToken');
       toast.success("Logged out successfully!");
       navigate("/");
     } catch (error) {
