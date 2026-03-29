@@ -16,29 +16,36 @@ const Description = () => {
         trigger: descRef.current,
         start: "top 80%",
         end: "bottom 20%",
-        toggleActions: "play none none reverse"
-      }
+        toggleActions: "play none none reverse",
+      },
     });
 
-    tl.fromTo(descRef.current.querySelector('.title'),
+    tl.fromTo(
+      descRef.current.querySelector(".title"),
       { y: 50, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.6 }
     )
-    .fromTo(descRef.current.querySelector('.subtitle'),
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5 }
-    )
-    .fromTo(imageRef.current,
-      { x: -100, opacity: 0, rotation: -5 },
-      { x: 0, opacity: 1, rotation: 0, duration: 0.8, ease: "power2.out" }
-    )
-    .fromTo(textRef.current.children,
-      { x: 100, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.6, stagger: 0.2 }
-    );
+      .fromTo(
+        descRef.current.querySelector(".subtitle"),
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5 }
+      )
+      .fromTo(
+        imageRef.current,
+        { x: -100, opacity: 0, rotation: -5 },
+        { x: 0, opacity: 1, rotation: 0, duration: 0.8, ease: "power2.out" }
+      )
+      .fromTo(
+        textRef.current.children,
+        { x: 100, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.6, stagger: 0.2 }
+      );
   }, []);
   return (
-    <div ref={descRef} className="flex flex-col items-center justify-center my-24 p-6 md:px-28">
+    <div
+      ref={descRef}
+      className="flex flex-col items-center justify-center my-24 p-6 md:px-28"
+    >
       <h1 className="title text-3xl sm:text-4xl font-semibold mb-2 ">
         Create AI Images
       </h1>
